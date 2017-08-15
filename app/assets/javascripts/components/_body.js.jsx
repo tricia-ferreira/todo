@@ -1,6 +1,6 @@
 var Body = React.createClass({
   getInitialState() {
-    return { items: [] }
+    return { items: [], message: null }
   },
 
   componentDidMount() {
@@ -42,16 +42,28 @@ var Body = React.createClass({
     }
   )},
 
+  handleErrors(error) {
+    var message = [];
+    var json_error = JSON.parse(error);
+    for (var i in json_error.errors) {
+      message.push(`${i} ${json_error.errors[i]}`);
+    };
+    this.setState({ message: message.join(', ') });
+  },
+
   updateItems(item) {
     var items = this.state.items.filter((i) => { return i.id != item.id });
-    items.push(item); this.setState({items: items });
+    items.push(item); this.setState({ items: items, message: null });
   },
 
   render() {
     return (
-      <div>
-        <NewItem handleSubmit={this.handleSubmit} />
-        <AllItems items={this.state.items} handleDelete={this.handleDelete} onUpdate={this.handleUpdate} />
+      <div className='row'>
+        <div className='col-md-8 col-md-offset-2'>
+          <FlashMessage message={this.state.message} />
+          <NewItem handleSubmit={this.handleSubmit} handleErrors={this.handleErrors} />
+          <AllItems items={this.state.items} handleDelete={this.handleDelete} onUpdate={this.handleUpdate} />
+        </div>
       </div>
     )
   }

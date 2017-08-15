@@ -1,6 +1,10 @@
 class Api::ItemsController < Api::BaseController
   def index
-    respond_with Item.all
+    respond_with Item.all.order(created_at: :desc)
+  end
+
+  def new
+    respond_with :api, Item.new
   end
 
   def create

@@ -8,6 +8,9 @@ var NewItem= React.createClass({
       data: { item: { name: name, description: description } },
       success: (item) => {
         this.props.handleSubmit(item);
+      },
+      error: (item) => {
+        this.props.handleErrors(item.responseText);
       }
     });
   },
