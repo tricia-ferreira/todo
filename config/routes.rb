@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root to: 'site#index'
 
   namespace :api do
-    resources :items, only: [:index, :new, :create, :destroy, :update]
+    resources :items, only: [:index, :create, :destroy, :update]
+    resources :tyre, only: [:index, :create, :destroy, :update]
   end
 end
